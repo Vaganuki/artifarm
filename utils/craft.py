@@ -1,3 +1,5 @@
+from time import sleep
+
 import requests
 
 async def craft_item(headers,c_url,code,quantity):
