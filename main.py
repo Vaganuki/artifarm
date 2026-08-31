@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-from farming_loops.cooper_bar import copper_bars
+from farming_loops.copper_bar import copper_bars
 
 load_dotenv()
 

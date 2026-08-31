@@ -5,7 +5,8 @@ import requests
 from data.locations import BANK, MINING_WORKSHOP, COPPER_ROCKS
 from utils.craft import craft_item
 from utils.move_to import move_to
-from utils.inventory import is_inventory_full, find_item, find_other_items, deposit_except_item
+from utils.inventory import is_inventory_full, find_item, find_other_items
+from utils.bank import deposit_except_item
 
 async def copper_bars(TOKEN: str,CHARACTER_NAME: str,):
     headers = {
