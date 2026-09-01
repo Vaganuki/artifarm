@@ -1,14 +1,14 @@
 from time import sleep
 import requests
 
-from data.locations import YELLOW_SLIME
 from utils.bank import deposit_except_item
+from utils.gets import get_char_data
 from utils.move_to import move_to
 from utils.fighting import get_healing_item, healing
 from utils.inventory import find_healing_item, find_item, is_inventory_full
 
 
-async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
+async def combat_cycle(TOKEN,CHARACTER_NAME, LOCATION):
 
     headers = {
         "Accept": "application/json",
@@ -16,21 +16,12 @@ async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
         "Authorization": f"Bearer {TOKEN}"
     }
 
-    base_url = f"https://api.artifactsmmo.com/characters/{CHARACTER_NAME}"
     fight_url = f'https://api.artifactsmmo.com/my/{CHARACTER_NAME}/action/fight'
     while True:
-        try:
-            details = requests.get(url = base_url, headers = headers)
-            char_info = details.json()
 
-            if 'error' in char_info:
-                raise Exception(char_info["error"]['message'])
+        char_data = await get_char_data(headers, CHARACTER_NAME)
 
-            char_data = char_info["data"]
-            print(f"✅ {char_data['name']} begins a new yellow slime cycle")
-        except Exception as e:
-            print(f"❌ {e}")
-            return
+        print(f"✅ {char_data['name']} begins a new combat cycle ({LOCATION})")
 
         healing_ready = False
         healing_item = {'code':'','quantity':-1}
@@ -38,17 +29,7 @@ async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
 
         while not healing_ready:
 
-            try:
-                details = requests.get(url=base_url, headers=headers)
-                char_info = details.json()
-
-                if 'error' in char_info:
-                    raise Exception(char_info["error"]['message'])
-
-                char_data = char_info["data"]
-            except Exception as e:
-                print(f"❌ {e}")
-                continue
+            char_data = await get_char_data(headers, CHARACTER_NAME)
 
             found_healing_item = await find_healing_item(headers, char_data['inventory'])
 
@@ -66,17 +47,18 @@ async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
                     await healing(headers, char_data, healing_item['code'])
                     healing_item['quantity'] -= 1
 
-                    details = requests.get(url=base_url, headers=headers)
-                    char_info = details.json()
-                    char_data = char_info["data"]
+                    char_data = await get_char_data(headers, CHARACTER_NAME)
 
                 if healing_item['quantity'] > 0:
                     healing_ready = True
 
-        await move_to(TOKEN, char_data, YELLOW_SLIME['x'], YELLOW_SLIME['y'])
+        await move_to(TOKEN, char_data, LOCATION['x'], LOCATION['y'])
+
         fight_ready = True
+
         while fight_ready:
             try:
+
                 response = requests.post(fight_url, headers=headers)
                 res_info = response.json()
                 fight_data = res_info['data']
@@ -97,14 +79,16 @@ async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
                 sleep(fight_data['cooldown']['total_seconds'])
 
                 if fight_data["characters"][0]['max_hp'] - 80 >= fight_data["characters"][0]['hp']:
+
                     await healing(headers, fight_data["characters"][0], healing_item['code'])
                     healing_item['quantity'] -= 1
+
                     if healing_item['quantity'] == 0:
                         fight_ready = False
 
                 if await is_inventory_full(fight_data['characters'][0]):
                     await deposit_except_item(TOKEN, fight_data['characters'][0], headers, healing_item['code'])
-                    await move_to(TOKEN, char_data, YELLOW_SLIME['x'], YELLOW_SLIME['y'])
+                    await move_to(TOKEN, char_data, LOCATION['x'], LOCATION['y'])
 
             except Exception as e:
                 print(f"❌ {e}")
