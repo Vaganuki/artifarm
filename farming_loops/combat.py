@@ -78,10 +78,13 @@ async def combat_cycle(TOKEN,CHARACTER_NAME, LOCATION):
 
                 sleep(fight_data['cooldown']['total_seconds'])
 
-                if fight_data["characters"][0]['max_hp'] - 80 >= fight_data["characters"][0]['hp']:
+                char_data = await get_char_data(headers, CHARACTER_NAME)
+                if char_data['max_hp'] - heal_value >= char_data['hp'] and healing_item['quantity'] > 0:
 
                     await healing(headers, fight_data["characters"][0], healing_item['code'])
                     healing_item['quantity'] -= 1
+
+                    char_data = await get_char_data(headers, CHARACTER_NAME)
 
                     if healing_item['quantity'] == 0:
                         fight_ready = False
