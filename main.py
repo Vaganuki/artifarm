@@ -3,9 +3,11 @@ import os
 
 from dotenv import load_dotenv
 
-from data.locations import COPPER_ROCKS, IRON_ROCKS, YELLOW_SLIME, CHICKEN, GREEN_SLIME
+from data.locations import COPPER_ROCKS, IRON_ROCKS, YELLOW_SLIME, CHICKEN, GREEN_SLIME, ASH_TREE, SHRIMP_SPOT, SHEEP
 from farming_loops.combat import combat_cycle
+from farming_loops.cooked_fish import cooked_fish_cycle
 from farming_loops.ingots import ingot_cycle
+from farming_loops.planks import plank_cycle
 
 load_dotenv()
 
@@ -27,5 +29,11 @@ match TASK_INPUT:
         asyncio.run(combat_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT, LOCATION = CHICKEN))
     case 4: # -- GREEN SLIME FIGHT --
         asyncio.run(combat_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT, LOCATION = GREEN_SLIME))
+    case 5: # -- ASH PLANK --
+        asyncio.run(plank_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT, WOOD_CODE = 'ash_wood', PLANK_CODE = 'ash_plank', LOCATION = ASH_TREE))
+    case 6: # -- COOKED SHRIMP --
+        asyncio.run(cooked_fish_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT,FISH_CODE = 'shrimp', COOKED_FISH_CODE = 'cooked_shrimp', LOCATION = SHRIMP_SPOT ))
+    case 7:  # -- SHEEP FIGHT --
+        asyncio.run(combat_cycle(TOKEN=TOKEN, CHARACTER_NAME=CHAR_INPUT, LOCATION=SHEEP))
     case _:
         print('Bye bye')
