@@ -62,6 +62,10 @@ async def healing(headers, character, item_code):
         h_resp = requests.post(f"https://api.artifactsmmo.com/my/{character['name']}/action/use", headers=headers,
                                json=body)
         h_data = h_resp.json()
+
+        if 'error' in h_data['data']:
+            raise Exception(h_data['error']['message'])
+
         print(f'✅ {item_code} has been used.')
         sleep(h_data['data']['cooldown']['total_seconds'])
 

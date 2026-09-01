@@ -2,13 +2,14 @@ import json
 from time import sleep
 import requests
 
-from data.locations import BANK, MINING_WORKSHOP, COPPER_ROCKS
+from data.locations import BANK, MINING_WORKSHOP
 from utils.craft import craft_item
 from utils.move_to import move_to
 from utils.inventory import is_inventory_full, find_item, find_other_items
 from utils.bank import deposit_except_item
 
-async def copper_bars(TOKEN: str,CHARACTER_NAME: str,):
+
+async def ingot_cycle(TOKEN ,CHARACTER_NAME , ORE_CODE, BAR_CODE, LOCATION):
     headers = {
         "Accept": "application/json",
         "Content-Type": "application/json",
@@ -28,16 +29,18 @@ async def copper_bars(TOKEN: str,CHARACTER_NAME: str,):
                 raise Exception(char_info["error"]['message'])
 
             char_data = char_info["data"]
-            print(f"✅ {char_data['name']} begins a new copper bar cycle")
+            print(f"✅ {char_data['name']} begins a new {BAR_CODE} cycle")
+
         except Exception as e:
             print(f"❌ {e}")
             break
 
 
-        if await find_other_items(char_data['inventory'], 'copper_ore'):
-            await deposit_except_item(TOKEN, char_data, headers, 'copper_ore')
+        if await find_other_items(char_data['inventory'], ORE_CODE):
+            await deposit_except_item(TOKEN, char_data, headers, ORE_CODE)
+
         elif await is_inventory_full(char_data):
-            await deposit_except_item(TOKEN, char_data, headers, 'copper_ore')
+            await deposit_except_item(TOKEN, char_data, headers, ORE_CODE)
 
         try:
 
@@ -46,7 +49,7 @@ async def copper_bars(TOKEN: str,CHARACTER_NAME: str,):
             char_data = char_info["data"]
 
             if char_data['x'] != 2 or char_data['y'] != 0:
-                await move_to(TOKEN, character = char_data, x = COPPER_ROCKS['x'], y = COPPER_ROCKS['y'])
+                await move_to(TOKEN, character = char_data, x = LOCATION['x'], y = LOCATION['y'])
 
             while not await is_inventory_full(char_data):
 
@@ -75,11 +78,11 @@ async def copper_bars(TOKEN: str,CHARACTER_NAME: str,):
             char_data = char_info["data"]
 
             await move_to(TOKEN, character=char_data, x=MINING_WORKSHOP['x'], y=MINING_WORKSHOP['y'])
-            copper_craft = await find_item(char_data["inventory"], 'copper_ore')
-            if copper_craft:
+            bar_craft = await find_item(char_data["inventory"], ORE_CODE)
+            if bar_craft:
                 try:
-                    print(type(copper_craft['quantity']), copper_craft)
-                    c_err = await craft_item(headers,c_url,'copper_bar', copper_craft['quantity'] // 10)
+                    print(type(bar_craft['quantity']), bar_craft)
+                    c_err = await craft_item(headers,c_url,BAR_CODE, bar_craft['quantity'] // 10)
                     if c_err:
                         raise Exception(c_err)
 
@@ -91,7 +94,7 @@ async def copper_bars(TOKEN: str,CHARACTER_NAME: str,):
             char_info = details.json()
             char_data = char_info["data"]
 
-            await deposit_except_item(TOKEN, char_data, headers, 'copper_ore')
+            await deposit_except_item(TOKEN, char_data, headers, ORE_CODE)
 
         except Exception as e:
             print(f"❌ {e}")

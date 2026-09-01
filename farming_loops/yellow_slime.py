@@ -68,10 +68,6 @@ async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
 
                     details = requests.get(url=base_url, headers=headers)
                     char_info = details.json()
-
-                    if 'error' in char_info:
-                        raise Exception(char_info["error"]['message'])
-
                     char_data = char_info["data"]
 
                 if healing_item['quantity'] > 0:
