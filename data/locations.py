@@ -7,6 +7,7 @@ MINING_WORKSHOP = {'x': 1, 'y': 5}
 # === MINES ===
 
 COPPER_ROCKS = {'x': 2, 'y': 0}
+IRON_ROCKS = {'x': 1, 'y': 7}
 
 # === MONSTERS ===
 

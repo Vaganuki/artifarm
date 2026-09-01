@@ -1,19 +1,14 @@
-import asyncio
-import json
 from time import sleep
 import requests
 
-from utils import move_to
-from utils.bank import get_bank_items
+from data.locations import YELLOW_SLIME
+from utils.bank import deposit_except_item
+from utils.move_to import move_to
 from utils.fighting import get_healing_item, healing
-from utils.inventory import find_healing_item, find_item
+from utils.inventory import find_healing_item, find_item, is_inventory_full
 
-heal_value = 0
-found_healing_item = None
 
 async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
-    global heal_value, found_healing_item
-
 
     headers = {
         "Accept": "application/json",
@@ -22,7 +17,7 @@ async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
     }
 
     base_url = f"https://api.artifactsmmo.com/characters/{CHARACTER_NAME}"
-
+    fight_url = f'https://api.artifactsmmo.com/my/{CHARACTER_NAME}/action/fight'
     while True:
         try:
             details = requests.get(url = base_url, headers = headers)
@@ -35,9 +30,11 @@ async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
             print(f"✅ {char_data['name']} begins a new yellow slime cycle")
         except Exception as e:
             print(f"❌ {e}")
-            break
+            return
 
         healing_ready = False
+        healing_item = {'code':'','quantity':-1}
+        heal_value = 0
 
         while not healing_ready:
 
@@ -51,24 +48,68 @@ async def yellow_slimes(TOKEN: str,CHARACTER_NAME: str,):
                 char_data = char_info["data"]
             except Exception as e:
                 print(f"❌ {e}")
+                continue
 
             found_healing_item = await find_healing_item(headers, char_data['inventory'])
+
             if found_healing_item:
 
                 heal_value = found_healing_item['effects'][0]['value']
                 healing_item = await find_item(char_data['inventory'], found_healing_item['code'])
 
-                healing_ready = True
-
             else:
                 await get_healing_item(TOKEN, headers, char_data)
+
+            if healing_item['code'] != '':
+
                 while char_data['max_hp'] - heal_value >= char_data['hp'] and healing_item['quantity'] > 0:
                     await healing(headers, char_data, healing_item['code'])
                     healing_item['quantity'] -= 1
 
+                    details = requests.get(url=base_url, headers=headers)
+                    char_info = details.json()
 
-    return
+                    if 'error' in char_info:
+                        raise Exception(char_info["error"]['message'])
 
+                    char_data = char_info["data"]
 
+                if healing_item['quantity'] > 0:
+                    healing_ready = True
 
+        await move_to(TOKEN, char_data, YELLOW_SLIME['x'], YELLOW_SLIME['y'])
+        fight_ready = True
+        while fight_ready:
+            try:
+                response = requests.post(fight_url, headers=headers)
+                res_info = response.json()
+                fight_data = res_info['data']
 
+                if "error" in fight_data:
+                    raise Exception(fight_data["error"]["message"])
+
+                fight = fight_data["fight"]
+                fight_stats = fight["characters"][0]
+
+                print("🏆 Fight won!" if fight["result"] == "win" else "💀 Fight lost!")
+                print(f"⚔️  XP gained: {fight_stats['xp']} | HP remaining: {fight_stats['final_hp']}")
+
+                if len(fight_stats["drops"]) > 0:
+                    drops_str = ", ".join([f"{d['quantity']}x {d['code']}" for d in fight_stats["drops"]])
+                    print(f"🎁 Loot dropped: {drops_str}")
+
+                sleep(fight_data['cooldown']['total_seconds'])
+
+                if fight_data["characters"][0]['max_hp'] - 80 >= fight_data["characters"][0]['hp']:
+                    await healing(headers, fight_data["characters"][0], healing_item['code'])
+                    healing_item['quantity'] -= 1
+                    if healing_item['quantity'] == 0:
+                        fight_ready = False
+
+                if await is_inventory_full(fight_data['characters'][0]):
+                    await deposit_except_item(TOKEN, fight_data['characters'][0], headers, healing_item['code'])
+                    await move_to(TOKEN, char_data, YELLOW_SLIME['x'], YELLOW_SLIME['y'])
+
+            except Exception as e:
+                print(f"❌ {e}")
+                break
