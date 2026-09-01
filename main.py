@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-from data.locations import COPPER_ROCKS, IRON_ROCKS, YELLOW_SLIME, CHICKEN
+from data.locations import COPPER_ROCKS, IRON_ROCKS, YELLOW_SLIME, CHICKEN, GREEN_SLIME
 from farming_loops.combat import combat_cycle
 from farming_loops.ingots import ingot_cycle
 
@@ -14,7 +14,7 @@ CHAR_LIST = ['Vaganuki', 'Bertrand', 'josiane', 'alexis', 'X_klave']
 
 CHAR_INPUT = CHAR_LIST[int(input("Please chose a Character you would like to use: \n 0: Vaganuki, 1: Bertrand, 2: josiane, 3: alexis, 4: X_klave\n"))]
 
-TASK_INPUT = int(input('Please chose a task 0: copper bar, 1: iron bar, 2: yellow slimes, 3: chickens\n'))
+TASK_INPUT = int(input('Please chose a task 0: copper bar, 1: iron bar, 2: yellow slimes, 3: chickens, 4: green slimes\n'))
 
 match TASK_INPUT:
     case 0: # -- COPPER BAR --
@@ -25,5 +25,7 @@ match TASK_INPUT:
         asyncio.run(combat_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT,LOCATION = YELLOW_SLIME ))
     case 3: # -- CHICKEN FIGHT --
         asyncio.run(combat_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT, LOCATION = CHICKEN))
+    case 4: # -- GREEN SLIME FIGHT --
+        asyncio.run(combat_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT, LOCATION = GREEN_SLIME))
     case _:
         print('Bye bye')
