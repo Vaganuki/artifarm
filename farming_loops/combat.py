@@ -66,7 +66,10 @@ async def combat_cycle(TOKEN,CHARACTER_NAME, LOCATION):
 
                 response = requests.post(fight_url, headers=headers)
                 res_info = response.json()
+                print(res_info)
                 fight_data = res_info['data']
+
+                print(f'fight_data: {fight_data}')
 
                 if "error" in fight_data:
                     raise Exception(fight_data["error"]["message"])
