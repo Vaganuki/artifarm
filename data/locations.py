@@ -29,3 +29,4 @@ CHICKEN =  {'x': 0, 'y': 1}
 YELLOW_SLIME =  {'x': 1, 'y': -2}
 GREEN_SLIME =  {'x': 0, 'y': -1}
 SHEEP = {'x': 5, 'y': 12}
+COW = {'x': 0, 'y': 2}

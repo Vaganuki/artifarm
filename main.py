@@ -4,11 +4,12 @@ import os
 from dotenv import load_dotenv
 
 from data.locations import COPPER_ROCKS, IRON_ROCKS, YELLOW_SLIME, CHICKEN, GREEN_SLIME, ASH_TREE, SHRIMP_SPOT, SHEEP, \
-    SPRUCE_TREE
+    SPRUCE_TREE, COW
 from farming_loops.combat import combat_cycle
 from farming_loops.cooked_fish import cooked_fish_cycle
 from farming_loops.ingots import ingot_cycle
 from farming_loops.planks import plank_cycle
+from farming_loops.raw_ressources import raw_ressource_cycle
 
 load_dotenv()
 
@@ -38,5 +39,9 @@ match TASK_INPUT:
         asyncio.run(combat_cycle(TOKEN=TOKEN, CHARACTER_NAME=CHAR_INPUT, LOCATION=SHEEP))
     case 8: # -- SPRUCE PLANK --
         asyncio.run(plank_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT, WOOD_CODE = 'spruce_wood', PLANK_CODE = 'spruce_plank', LOCATION = SPRUCE_TREE))
+    case 9: # -- COW FIGHT --
+        asyncio.run(combat_cycle(TOKEN=TOKEN, CHARACTER_NAME=CHAR_INPUT, LOCATION=COW))
+    case 10:
+        asyncio.run(raw_ressource_cycle(TOKEN = TOKEN, CHARACTER_NAME = CHAR_INPUT, LOCATION = SPRUCE_TREE ))
     case _:
         print('Bye bye')
