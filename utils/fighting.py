@@ -49,14 +49,14 @@ async def get_healing_item(TOKEN , header,character):
 
     return None
 
-async def healing(headers, character, item_code):
+async def healing(headers, character, item_code, quantity = 1):
 
     try:
         print(f'📛 {character['name']} is trying to heal themselves')
 
         body = {
             'code': item_code,
-            'quantity': 1
+            'quantity': quantity
         }
 
         h_resp = requests.post(f"https://api.artifactsmmo.com/my/{character['name']}/action/use", headers=headers,
@@ -66,7 +66,7 @@ async def healing(headers, character, item_code):
         if 'error' in h_data['data']:
             raise Exception(h_data['error']['message'])
 
-        print(f'✅ {item_code} has been used.')
+        print(f'✅ {quantity} {item_code} has been used.')
         sleep(h_data['data']['cooldown']['total_seconds'])
 
         return True
