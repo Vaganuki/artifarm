@@ -112,3 +112,11 @@ export interface Character {
 export interface CharacterResponse {
     data: Character;
 }
+
+export interface CharactersResponse {
+    data: Character[];
+    total: number;
+    page: number;
+    size: number;
+    pages: number;
+}
