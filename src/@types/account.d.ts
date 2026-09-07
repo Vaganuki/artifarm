@@ -12,3 +12,6 @@ export interface Account {
     banned: boolean;
     ban_reason: string;
 }
+export interface LogInResponse {
+    token: string;
+}

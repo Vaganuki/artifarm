@@ -1,12 +1,14 @@
 import './App.css'
-import {useAuthToken} from "./hooks/useAuthToken.ts";
-import {TokenPrompt} from "./components/TokenPrompt.tsx";
+import {useAuthCredentials} from "./hooks/useAuthCredentials.ts";
 import {useEffect} from "react";
 import {setApiToken} from "./api/artifactsApi.ts";
 import {CharacterDashboard} from "./components/dashboard/ChacterDashboard.tsx";
+import {ItemsProvider} from "./context/ItemsContext.tsx";
+import {Bank} from "./components/bank/Bank.tsx";
+import {LoginScreen} from "./components/login-screen/login-screen.tsx";
 
 function App() {
-  const {token,isPersisted, setToken, clearToken} = useAuthToken();
+  const {token,isPersisted, login, clearToken} = useAuthCredentials();
 
   useEffect(() => {
     setApiToken(token)
@@ -19,19 +21,21 @@ function App() {
   }, [clearToken]);
 
   if (!token) {
-    return <TokenPrompt onSubmit={setToken}/>;
+    return <LoginScreen onSubmit={login}/>;
   }
 
   return (
-    <div className="main-menu">
-        <CharacterDashboard />
-        <div className="-logs dev">LOGS</div>
-        <div className="-bank dev">BANK</div>
-        <div className="-jobs dev">JOBS</div>
-        <div className="-tasks dev">TASKS</div>
-        <div className="-farm dev">FARM</div>
-        <button className="-settigns" onClick={clearToken}>{isPersisted  ? 'Forget my token' : 'Terminate my session' }</button>
-    </div>
+      <ItemsProvider>
+        <div className="main-menu">
+            <CharacterDashboard />
+            <div className="-logs dev">LOGS</div>
+            <Bank />
+            <div className="-jobs dev">JOBS</div>
+            <div className="-tasks dev">TASKS</div>
+            <div className="-farm dev">FARM</div>
+            <button className="-settigns" onClick={clearToken}>{isPersisted  ? 'Forget my token' : 'Terminate my session' }</button>
+        </div>
+      </ItemsProvider>
   )
 }
 

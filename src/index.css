@@ -55,3 +55,8 @@
     font-family: 'Comic Sans MS', cursive;
     color: crimson;
 }
+.unselectable {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

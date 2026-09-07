@@ -24,6 +24,8 @@
 }
 .-bank{
     grid-area: bank;
+    display: flex;
+    justify-content: center;
 }
 .-jobs{
     grid-area: jobs;
