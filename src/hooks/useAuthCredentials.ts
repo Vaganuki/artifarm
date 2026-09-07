@@ -51,7 +51,7 @@ export function useAuthCredentials() {
             } else {
                 localStorage.removeItem(STORAGE_KEY);
             }
-
+            if(isLoading) console.log(isLoading);
             setIsPersisted(remember);
             setTokenState(jwt);
             console.log(jwt)
