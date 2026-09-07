@@ -39,3 +39,11 @@ export interface Item {
 export interface ItemResponse {
     data: Item;
 }
+
+export interface ItemsResponse {
+    data: Item[];
+    total: number;
+    page: number;
+    size: number;
+    pages: number;
+}

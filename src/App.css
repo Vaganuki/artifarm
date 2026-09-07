@@ -19,7 +19,7 @@
 .character-dashboard{
     grid-area: character-dashboard;
 }
-.logs-screen{
+.-logs{
     grid-area: log;
 }
 .-bank{

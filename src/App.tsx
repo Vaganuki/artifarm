@@ -4,7 +4,6 @@ import {TokenPrompt} from "./components/TokenPrompt.tsx";
 import {useEffect} from "react";
 import {setApiToken} from "./api/artifactsApi.ts";
 import {CharacterDashboard} from "./components/dashboard/ChacterDashboard.tsx";
-import {LogsScreen} from "./components/logs/logs-screen.tsx";
 
 function App() {
   const {token,isPersisted, setToken, clearToken} = useAuthToken();
@@ -26,7 +25,7 @@ function App() {
   return (
     <div className="main-menu">
         <CharacterDashboard />
-        <LogsScreen/>
+        <div className="-logs dev">LOGS</div>
         <div className="-bank dev">BANK</div>
         <div className="-jobs dev">JOBS</div>
         <div className="-tasks dev">TASKS</div>
