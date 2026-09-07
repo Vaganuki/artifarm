@@ -7,6 +7,6 @@ interface ArtifactLogs {
 
 export function artifactLogs() {
     return(
-        <div></div>
+        <div>a</div>
     )
 }
