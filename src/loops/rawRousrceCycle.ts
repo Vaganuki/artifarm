@@ -16,7 +16,7 @@ export async function rawResourceCycle(characterName: string, location: Location
 
         character = await depositExceptItem(character);
         while (!signal.aborted){
-            const moveResult = await moveTo(character, location, signal);
+            const moveResult = await moveTo(character, location);
             if(moveResult) character = moveResult;
 
             while (!isInventoryFull(character)){

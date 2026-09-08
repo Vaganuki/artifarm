@@ -1,4 +1,5 @@
 import type {Character} from "./character";
+import type {BankItem} from "./bank";
 
 export interface Cooldown {
     total_seconds: number;
@@ -41,7 +42,10 @@ export interface GatheringActionResponse {
 
 export interface BankDepositDetails {
     cooldown: Cooldown;
+    items: BankItem[];
+    bank: BankItem[];
     character: Character;
+
 }
 
 export interface BankDepositResponse {
@@ -51,4 +55,9 @@ export interface BankDepositResponse {
 export interface DepositPayloadItem {
     code: string;
     quantity: number;
+}
+
+export interface ActionResultLike{
+    character?: Character;
+    bank?: BankItem[];
 }

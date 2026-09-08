@@ -1,9 +1,9 @@
-import {useCallback, useEffect, useState} from "react";
-import type {Character} from "../@types/character";
+import {useCallback, useEffect, useState, useSyncExternalStore} from "react";
 import {getCharacters} from "../api/characters.ts";
+import {getAllCharacters, setCharacters, subscribe} from "../store/characterStore.ts";
 
-export function useCharacters(pollIntervalMs? : number) {
-    const [characters, setCharacters] = useState<Character[]>([])
+export function useCharacters() {
+    const characters = useSyncExternalStore(subscribe, getAllCharacters);
     const [isLoading, setIsLoading] = useState<boolean>(true)
     const [error, setError] = useState<string | null>(null)
 
@@ -20,11 +20,7 @@ export function useCharacters(pollIntervalMs? : number) {
 
     useEffect(() => {
         refresh();
-        if(!pollIntervalMs) return;
-
-        const interval = setInterval(refresh, pollIntervalMs);
-        return () => clearInterval(interval);
-    }, [refresh, pollIntervalMs]);
+    }, [refresh]);
 
     return { characters, isLoading, error , refresh };
 }
