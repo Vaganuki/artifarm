@@ -1,7 +1,7 @@
 .main-menu{
     display: grid;
     gap: .5rem;
-    grid-template: 1fr 3fr 1fr/ repeat(5, 1fr);
+    grid-template: 25% 60% 15% / repeat(5, 1fr);
     grid-template-areas: 'character-dashboard character-dashboard character-dashboard character-dashboard character-dashboard'
 'log log log log log'
     'bank jobs tasks farm setting';

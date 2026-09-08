@@ -1,8 +1,8 @@
 import {useItemsCache} from "../context/ItemsContext.tsx";
 import type {Item} from "../@types/item";
-import {useCallback, useEffect, useState} from "react";
-import type {BankItem} from "../@types/bank";
-import {getBankItems} from "../api/bank.ts";
+import {getBankItems as fetchBankItems} from '../api/bank';
+import {useCallback, useEffect, useState, useSyncExternalStore} from "react";
+import {getBankItems, setBankItems, subscribe} from "../store/bankStore.ts";
 
 export interface EnrichedBankItem {
     code: string;
@@ -11,15 +11,15 @@ export interface EnrichedBankItem {
 }
 
 export function useBank() {
+    const rawItems = useSyncExternalStore(subscribe, getBankItems)
     const {itemsByCode, isLoading : itemsLoading} = useItemsCache();
-    const [rawItems, setRawItems] = useState<BankItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const refresh = useCallback(async () => {
         try{
             setError(null);
-            setRawItems(await getBankItems());
+            setBankItems(await fetchBankItems());
         } catch (error) {
             setError(error instanceof Error ? error.message : "Unknown error occurred.");
         } finally {
