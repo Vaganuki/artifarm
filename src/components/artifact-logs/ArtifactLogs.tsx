@@ -1,10 +1,10 @@
 import {useLogs} from "../../hooks/useLogs.ts";
 
-export function artifactLogs() {
+export function ArtifactLogs() {
     const logs = useLogs();
 
     return(
-        <div className="artifact-logs">
+        <div className="-logs artifact-logs">
             {logs.map((log) => (
                 <p key={log.id} className={`log log--${log.level}`}>
                     <span className="log-time">{new Date(log.timestamp).toLocaleTimeString()}</span>

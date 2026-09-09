@@ -17,6 +17,7 @@ export const SPRUCE_TREE : Location = {x: 2, y: 6};
 // === FISHES ===
 export const GUDGEON_SPOT : Location = {x: 4, y: 2};
 export const SHRIMP_SPOT : Location = {x: 5, y: 2};
+export const TROUT_SPOT : Location = {x: 7, y: 12};
 
 // === MONSTERS ===
 export const CHICKEN : Location = {x: 0, y: 1};
@@ -29,17 +30,26 @@ export const COW : Location = {x: 0, y: 2};
 export const MUSHMUSH : Location = {x: 5, y: 3};
 export const DRAGON_FLY : Location = {x: 5, y: 4};
 
-export const LOCATIONS = {
-    BANK,
-    MINING_WORKSHOP,
-    WOODCUTTING_WORKSHOP,
-    COOKING_WORKSHOP,
-    COPPER_ROCKS,
+// === ALCHEMY ===
+export const SUNFLOWER : Location = {x: 2, y:2}
+
+
+// === Look up groups ===
+
+export const RAW_RESOURCE_LOCATIONS = {
+    COPPER_ROCKS, // ROCKS
     IRON_ROCKS,
-    ASH_TREE,
+    ASH_TREE, // TREES
     SPRUCE_TREE,
-    GUDGEON_SPOT,
+    GUDGEON_SPOT, // FISHES
     SHRIMP_SPOT,
+    TROUT_SPOT,
+    SUNFLOWER, // ALCHEMY
+}
+
+export type RawResourceLocationName = keyof typeof RAW_RESOURCE_LOCATIONS;
+
+export const MONSTER_LOCATIONS = {
     CHICKEN,
     YELLOW_SLIMES,
     GREEN_SLIMES,
@@ -51,4 +61,4 @@ export const LOCATIONS = {
     DRAGON_FLY,
 } as const;
 
-export type LocationName = keyof typeof LOCATIONS;
+export type MonsterLocationName = keyof typeof MONSTER_LOCATIONS;

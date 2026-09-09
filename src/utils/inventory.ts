@@ -10,6 +10,10 @@ export function findItem(inventory: CharacterInventoryItem[], code: string) : Ch
     return inventory.find((item) => item.code === code ) ?? null;
 }
 
+export function findOtherItems(inventory : CharacterInventoryItem[], code:string): CharacterInventoryItem | null {
+    return inventory.find((item) => item.code === code ) ?? null;
+}
+
 export function findHealingItem(
     inventory: CharacterInventoryItem[],
     itemsByCode: Map<string, Item>
