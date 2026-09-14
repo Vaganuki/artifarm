@@ -1,6 +1,7 @@
-import type {Item} from "../@types/item";
-import {createContext, type ReactNode, useContext, useEffect, useState} from "react";
-import {getAllItems} from "../api/items.ts";
+import { createContext, useContext, useEffect, useSyncExternalStore, type ReactNode } from "react";
+import { getAllItems } from "../api/items";
+import { setItems, getItemsByCode, isItemsLoaded, subscribe } from "../store/itemsStore";
+import type { Item } from "../@types/item";
 
 interface ItemsContextValue {
     itemsByCode: Map<string, Item>;
@@ -10,29 +11,26 @@ interface ItemsContextValue {
 
 const ItemsContext = createContext<ItemsContextValue | null>(null);
 
-export function ItemsProvider({children}: {children: ReactNode}) {
-    const [itemsByCode, setItemsByCode] = useState<Map<string, Item>>(new Map());
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string|null>(null);
+export function ItemsProvider({ children }: { children: ReactNode }) {
+    const itemsByCode = useSyncExternalStore(subscribe, getItemsByCode);
+    const loaded = useSyncExternalStore(subscribe, isItemsLoaded);
 
     useEffect(() => {
+        if (loaded) return;
         getAllItems()
-            .then((items) => {
-                const map = new Map(items.map((item) => [item.code, item]));
-                setItemsByCode(map);
-            })
-            .catch((err) => setError(err instanceof Error ? err.message:'Unknown error occurred.'))
-            .finally(() => setIsLoading(false));
-    },[]);
+            .then(setItems)
+            .catch((err) => console.error("Failed to load items catalog:", err));
+    }, [loaded]);
+
     return (
-        <ItemsContext.Provider value={{itemsByCode, isLoading, error}}>
+        <ItemsContext.Provider value={{ itemsByCode, isLoading: !loaded, error: null }}>
             {children}
         </ItemsContext.Provider>
     );
 }
 
-export function useItemsCache() : ItemsContextValue {
+export function useItemsCache(): ItemsContextValue {
     const ctx = useContext(ItemsContext);
-    if(!ctx) throw new Error("useItemsCache must be used within an ItemsProvider");
+    if (!ctx) throw new Error("useItemsCache must be used within an ItemsProvider");
     return ctx;
 }

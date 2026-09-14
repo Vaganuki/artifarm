@@ -61,3 +61,36 @@ export interface ActionResultLike{
     character?: Character;
     bank?: BankItem[];
 }
+
+export interface UseItemActionResult {
+    cooldown: Cooldown;
+    character: Character;
+}
+
+export interface UseItemActionResponse {
+    data: UseItemActionResult;
+}
+
+export interface FightDrop{
+    code: string;
+    quantity: number;
+}
+
+export interface FightCharacterResult {
+    xp: number;
+    final_hp: number;
+    drops: FightDrop[];
+}
+
+export interface FightActionResult {
+    cooldown: Cooldown;
+    fight: {
+        result: "win" | "loss";
+        characters: FightCharacterResult[];
+    };
+    character: Character;
+}
+
+export interface FightActionResponse {
+   data: FightActionResult;
+}
