@@ -5,8 +5,9 @@ type Listener = () => void;
 let bankItems: BankItem[] = [];
 const listeners = new Set<Listener>();
 
+
 function emitChange() {
-    listeners.forEach((listener) => listener());
+    listeners.forEach( l => l());
 }
 
 export function setBankItems(items: BankItem[]) {
@@ -14,11 +15,11 @@ export function setBankItems(items: BankItem[]) {
     emitChange();
 }
 
-export function getBankItems() : BankItem[] {
+export function getBankItems(): BankItem[] {
     return bankItems;
 }
 
-export function subscribe(listener: Listener): () => void {
+export function subscribeBank(listener: Listener) : ()  => void{
     listeners.add(listener);
     return () => listeners.delete(listener);
 }

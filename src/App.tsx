@@ -7,6 +7,7 @@ import {ItemsProvider} from "./context/ItemsContext.tsx";
 import {Bank} from "./components/bank/Bank.tsx";
 import {LoginScreen} from "./components/login-screen/login-screen.tsx";
 import {ArtifactLogs} from "./components/artifact-logs/ArtifactLogs.tsx";
+import {Farm} from "./components/farm/Farm.tsx";
 
 function App() {
   const {token,isPersisted, login, clearToken} = useAuthCredentials();
@@ -33,7 +34,7 @@ function App() {
             <Bank />
             <div className="-jobs dev">JOBS</div>
             <div className="-tasks dev">TASKS</div>
-            <div className="-farm dev">FARM</div>
+            <Farm/>
             <button className="-settigns" onClick={clearToken}>{isPersisted  ? 'Forget my token' : 'Terminate my session' }</button>
         </div>
       </ItemsProvider>

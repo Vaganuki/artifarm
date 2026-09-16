@@ -1,4 +1,5 @@
 import {useState} from "react";
+import './login-screen.scss'
 
 interface LoginPromptProps {
     onSubmit: (

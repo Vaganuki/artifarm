@@ -13,7 +13,7 @@ export function CharacterDashboard() {
     if (error) return <p>Erreur : {error}</p>;
 
     return (
-        <div className="dashboard">
+        <div className="character-dashboard">
             {characters.map((character) => (
                 <CharacterCard character={character} key={character.name} />
             ))}

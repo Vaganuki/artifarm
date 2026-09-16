@@ -40,28 +40,6 @@ export interface GatheringActionResponse {
     data: GatheringData;
 }
 
-export interface BankDepositDetails {
-    cooldown: Cooldown;
-    items: BankItem[];
-    bank: BankItem[];
-    character: Character;
-
-}
-
-export interface BankDepositResponse {
-    data: BankDepositDetails;
-}
-
-export interface DepositPayloadItem {
-    code: string;
-    quantity: number;
-}
-
-export interface ActionResultLike{
-    character?: Character;
-    bank?: BankItem[];
-}
-
 export interface UseItemActionResult {
     cooldown: Cooldown;
     character: Character;
@@ -93,4 +71,12 @@ export interface FightActionResult {
 
 export interface FightActionResponse {
    data: FightActionResult;
+}
+
+
+// === STORE ===
+
+export interface ActionResultLike{
+    character?: Character;
+    bank?: BankItem[];
 }

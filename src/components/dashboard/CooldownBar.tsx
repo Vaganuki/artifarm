@@ -1,47 +1,39 @@
-import type {Character} from "../../@types/character";
-import {useEffect, useRef} from "react";
-import {gsap} from "../../lib/gsap.ts";
-
+import { useEffect, useRef } from "react";
+import { gsap } from "../../lib/gsap";
+import type { Character } from "../../@types/character";
 
 interface CooldownBarProps {
     character: Character;
 }
 
-export function CooldownBar({character}: CooldownBarProps) {
+export function CooldownBar({ character }: CooldownBarProps) {
     const barRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const bar = barRef.current;
         if (!bar) return;
 
-        const remainingMs = character.cooldown * 1000;
-        gsap.killTweensOf(bar)
+        const expiration = new Date(character.cooldown_expiration).getTime();
+        const remainingMs = expiration - Date.now();
 
+        gsap.killTweensOf(bar);
 
         if (remainingMs <= 0) {
-            gsap.set(bar,{
-                width: "0%",
-            });
+            gsap.set(bar, { width: "0%" });
             return;
         }
 
-        gsap.set(bar,{
-            width: "100%",
-        });
-
-        gsap.to(bar,{
+        gsap.set(bar, { width: "100%" });
+        gsap.to(bar, {
             width: "0%",
-            duration: character.cooldown,
-            ease: 'power1.in',
+            duration: remainingMs / 1000,
+            ease: "none",
         });
 
         return () => {
             gsap.killTweensOf(bar);
         };
+    }, [character.cooldown_expiration]);
 
-    },[character.cooldown]);
-
-
-    return <div className="char-cooldown" ref={barRef}/>
-
+    return <div className="char-cooldown" ref={barRef} />;
 }
