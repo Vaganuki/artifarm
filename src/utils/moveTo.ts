@@ -10,9 +10,8 @@ export async function moveTo(character: Character, location: Location): Promise<
         const result = await moveAction(character.name, location.x, location.y);
 
         log(`Moved to (${result.destination.x}, ${result.destination.y}) on ${result.destination.name}`, "success", character.name);
-        log(`Cooldown started: ${result.cooldown.total_seconds} seconds`, "info", character.name);
 
-        await sleep(result.cooldown.total_seconds*1000);
+        await sleep(character.name, result.cooldown.total_seconds*1000);
 
         return result.character;
     } catch(err) {

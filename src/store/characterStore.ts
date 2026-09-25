@@ -18,6 +18,8 @@ function emitChange() {
 
 export function setCharacter(character: Character) {
     characters.set(character.name, character);
+    rebuildSnapshot();
+    emitChange();
 }
 
 export function setCharacters(chars: Character[]) {

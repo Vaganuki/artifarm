@@ -1,11 +1,16 @@
 import {client} from "../artifactsApi.ts";
-import type {FightActionResponse} from "../../@types/action";
+import type {ActionResultLike, FightActionResponse} from "../../@types/action";
 import {applyActionResult} from "../../store/applyActionResult.ts";
+import type {Character} from "../../@types/character";
 
 export async function fight(characterName: string) {
     const {data} = await client.post<FightActionResponse>(
-        `/mym/${characterName}/action/fight`
+        `/my/${characterName}/action/fight`
     );
-    applyActionResult(data.data);
+    const result : ActionResultLike = {};
+    for (const character of data.data.characters) {
+        result.character = character;
+    }
+    applyActionResult(result);
     return data.data;
 }

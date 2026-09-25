@@ -66,7 +66,7 @@ export interface FightActionResult {
         result: "win" | "loss";
         characters: FightCharacterResult[];
     };
-    character: Character;
+    characters: Character[];
 }
 
 export interface FightActionResponse {

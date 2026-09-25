@@ -1,4 +1,4 @@
-import { useCharacters } from "../../hooks/useCharacters";
+import {useCharacter, useCharacters} from "../../hooks/useCharacters";
 import { useCurrentRoutine } from "../../hooks/useCurrentRoutine";
 import { stopLoop } from "../../lib/loopManager";
 import { ROUTINES } from "../../data/routines";
@@ -9,8 +9,8 @@ import "./character_dashboard.scss";
 export function CharacterDashboard() {
     const { characters, isLoading, error } = useCharacters();
 
-    if (isLoading) return <p>Chargement des personnages...</p>;
-    if (error) return <p>Erreur : {error}</p>;
+    if (isLoading) return <p>Loading characters...</p>;
+    if (error) return <p>Error: {error}</p>;
 
     return (
         <div className="character-dashboard">
@@ -22,37 +22,40 @@ export function CharacterDashboard() {
 }
 
 function CharacterCard({ character }: { character: Character }) {
+    const current = useCharacter(character.name);
     const routineId = useCurrentRoutine(character.name);
     const routineLabel = ROUTINES.find((r) => r.id === routineId)?.label;
 
+    if(!current) return null;
+
     return (
         <div className="char-card">
-            <CooldownBar character={character} />
+            <CooldownBar character={current} />
             <div className="char-card-left">
                 <img
-                    src={`https://play.artifactsmmo.com/images/characters/${character.skin}.png`}
-                    alt={`${character.name}'s skin`}
+                    src={`https://play.artifactsmmo.com/images/characters/${current.skin}.png`}
+                    alt={`${current.name}'s skin`}
                 />
-                <p>LVL {character.level}</p>
+                <p>LVL {current.level}</p>
             </div>
             <div className="char-card-right">
-                <p className="char-card-name">{character.name}</p>
+                <p className="char-card-name">{current.name}</p>
                 <div className="char-card-data">
                     <div className="hp-bar-container">
-                        <div className="hp-label">{character.hp} / {character.max_hp} HP</div>
-                        <div className="hp-bar" style={{ width: `${(character.hp / character.max_hp) * 100}%` }} />
+                        <div className="hp-label">{current.hp} / {current.max_hp} HP</div>
+                        <div className="hp-bar" style={{ width: `${(current.hp / current.max_hp) * 100}%` }} />
                     </div>
                     <div className="xp-bar-container">
-                        <div className="xp-label">{character.xp} / {character.max_xp} XP</div>
-                        <div className="xp-bar" style={{ width: `${(character.xp / character.max_xp) * 100}%` }} />
+                        <div className="xp-label">{current.xp} / {current.max_xp} XP</div>
+                        <div className="xp-bar" style={{ width: `${(current.xp / current.max_xp) * 100}%` }} />
                     </div>
-                    <p>({character.x},{character.y})</p>
+                    <p>({current.x},{current.y})</p>
                 </div>
 
                 {routineId ? (
                     <div className="char-card-activity">
                         <p>{routineLabel}</p>
-                        <button onClick={() => stopLoop(character.name)}>Stop</button>
+                        <button onClick={() => stopLoop(current.name)}>Stop</button>
                     </div>
                 ) : (
                     <p className="char-card-activity char-card-activity--idle">Idle</p>

@@ -29,7 +29,8 @@ export const SHEEP : Location = {x: 5, y: 12};
 export const COW : Location = {x: 0, y: 2};
 export const MUSHMUSH : Location = {x: 5, y: 3};
 export const DRAGON_FLY : Location = {x: 5, y: 4};
-
+export const HIGHWAYMAN : Location = {x:2,y:8}
+export const WOLF : Location = {x:-2,y:1}
 // === ALCHEMY ===
 export const SUNFLOWER : Location = {x: 2, y:2}
 
@@ -59,6 +60,8 @@ export const MONSTER_LOCATIONS = {
     COW,
     MUSHMUSH,
     DRAGON_FLY,
+    HIGHWAYMAN,
+    WOLF,
 } as const;
 
 export type MonsterLocationName = keyof typeof MONSTER_LOCATIONS;

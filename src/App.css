@@ -35,6 +35,8 @@
 }
 .-farm{
     grid-area: farm;
+    display: flex;
+    justify-content: center;
 }
 .-settings{
     grid-area: settings;

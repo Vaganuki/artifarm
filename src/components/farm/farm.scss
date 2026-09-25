@@ -1,4 +1,4 @@
-.farm {
+.-farm {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -42,5 +42,16 @@
   .btn-stop {
     background-color: #c62828;
     color: white;
+  }
+}
+
+.not-open{
+  flex-direction: column;
+  text-align: center;
+  gap: .5rem;
+  font-weight: bold;
+  font-size: 1.25rem;
+  & svg{
+    height: 50%;
   }
 }

@@ -1,0 +1,41 @@
+.artifact-logs{
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: lightgray;
+
+  padding: .25rem;
+  border: .2rem double black;
+
+  .log{
+    display: grid;
+    grid-template-columns: 1fr 15fr;
+
+    margin-bottom: .25rem;
+    .log-character{
+      text-align: center;
+    }
+  }
+  .log--{
+    &warn{
+      .log-character{
+        color: orange;
+      }
+    }
+    &error{
+      .log-character{
+        color: red;
+      }
+    }
+    &info{
+      .log-character{
+        color: deepskyblue;
+      }
+    }
+    &success{
+      .log-character{
+        color: green;
+      }
+    }
+  }
+}

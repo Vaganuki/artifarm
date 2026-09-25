@@ -10,11 +10,11 @@ import {ArtifactLogs} from "./components/artifact-logs/ArtifactLogs.tsx";
 import {Farm} from "./components/farm/Farm.tsx";
 
 function App() {
-  const {token,isPersisted, login, clearToken} = useAuthCredentials();
+  const {accessToken,isPersisted, setToken, clearToken} = useAuthCredentials();
 
   useEffect(() => {
-    setApiToken(token)
-  }, [token]);
+    setApiToken(accessToken)
+  }, [accessToken]);
 
   useEffect(() => {
     const handleUnauthorized = () => clearToken();
@@ -22,8 +22,8 @@ function App() {
     return () => window.removeEventListener("artifacts:unauthorized", handleUnauthorized);
   }, [clearToken]);
 
-  if (!token) {
-    return <LoginScreen onSubmit={login}/>;
+  if (!accessToken) {
+    return <LoginScreen onSubmit={setToken}/>;
   }
 
   return (

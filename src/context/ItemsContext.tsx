@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useSyncExternalStore, type ReactNode } from "react";
 import { getAllItems } from "../api/items";
-import { setItems, getItemsByCode, isItemsLoaded, subscribe } from "../store/itemsStore";
+import {setItems, getItemsByCode, isItemsLoaded, subscribeItem} from "../store/itemsStore";
 import type { Item } from "../@types/item";
 
 interface ItemsContextValue {
@@ -12,8 +12,8 @@ interface ItemsContextValue {
 const ItemsContext = createContext<ItemsContextValue | null>(null);
 
 export function ItemsProvider({ children }: { children: ReactNode }) {
-    const itemsByCode = useSyncExternalStore(subscribe, getItemsByCode);
-    const loaded = useSyncExternalStore(subscribe, isItemsLoaded);
+    const itemsByCode = useSyncExternalStore(subscribeItem, getItemsByCode);
+    const loaded = useSyncExternalStore(subscribeItem, isItemsLoaded);
 
     useEffect(() => {
         if (loaded) return;
