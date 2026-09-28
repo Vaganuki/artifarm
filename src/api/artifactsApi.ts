@@ -26,9 +26,22 @@ client.interceptors.request.use((config) => {
 client.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.reponse?.status === 401) {
+        if (error.response?.status === 401) {
             window.dispatchEvent(new CustomEvent('artifacts:unauthorized'));
         }
         return Promise.reject(error);
     }
 )
+
+export async function fetchToken(username: string, password: string): Promise<string> {
+    const credentials = btoa(`${username}:${password}`);
+    const res = await client.post<{ token: string }>('/token',
+            {},
+            {
+                headers: {
+                    'Authorization' : `Basic ${credentials}`
+                }
+            }
+        );
+    return res.data.token;
+}

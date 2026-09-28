@@ -1,7 +1,7 @@
 import './App.css'
 import {useAuthCredentials} from "./hooks/useAuthCredentials.ts";
 import {useEffect} from "react";
-import {setApiToken} from "./api/artifactsApi.ts";
+import {fetchToken, setApiToken} from "./api/artifactsApi.ts";
 import {CharacterDashboard} from "./components/dashboard/ChacterDashboard.tsx";
 import {ItemsProvider} from "./context/ItemsContext.tsx";
 import {Bank} from "./components/bank/Bank.tsx";
@@ -22,8 +22,22 @@ function App() {
     return () => window.removeEventListener("artifacts:unauthorized", handleUnauthorized);
   }, [clearToken]);
 
+  const handleLogin = async (username : string, password: string, remember : boolean) => {
+      try {
+          const token = await fetchToken(username, password);
+          setToken(token, remember);
+          return {success: true};
+      } catch (error:any) {
+          return {
+              success: false,
+              error: error?.response?.data?.message ?? "Identifiants ou mot de passe incorrects"
+          };
+      }
+  }
+
+
   if (!accessToken) {
-    return <LoginScreen onSubmit={setToken}/>;
+    return <LoginScreen onSubmit={handleLogin} />;
   }
 
   return (
