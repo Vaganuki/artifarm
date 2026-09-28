@@ -40,22 +40,41 @@ export interface GatheringActionResponse {
     data: GatheringData;
 }
 
-export interface BankDepositDetails {
+export interface UseItemActionResult {
     cooldown: Cooldown;
-    items: BankItem[];
-    bank: BankItem[];
     character: Character;
-
 }
 
-export interface BankDepositResponse {
-    data: BankDepositDetails;
+export interface UseItemActionResponse {
+    data: UseItemActionResult;
 }
 
-export interface DepositPayloadItem {
+export interface FightDrop{
     code: string;
     quantity: number;
 }
+
+export interface FightCharacterResult {
+    xp: number;
+    final_hp: number;
+    drops: FightDrop[];
+}
+
+export interface FightActionResult {
+    cooldown: Cooldown;
+    fight: {
+        result: "win" | "loss";
+        characters: FightCharacterResult[];
+    };
+    characters: Character[];
+}
+
+export interface FightActionResponse {
+   data: FightActionResult;
+}
+
+
+// === STORE ===
 
 export interface ActionResultLike{
     character?: Character;

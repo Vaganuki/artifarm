@@ -1,46 +1,34 @@
-import {useItemsCache} from "../context/ItemsContext.tsx";
-import type {Item} from "../@types/item";
-import {getBankItems as fetchBankItems} from '../api/bank';
 import {useCallback, useEffect, useState, useSyncExternalStore} from "react";
-import {getBankItems, setBankItems, subscribe} from "../store/bankStore.ts";
+import {getBankItems, setBankItems, subscribeBank} from "../store/bankStore.ts";
+import {useItemsCache} from "../context/ItemsContext.tsx";
+import {getBankItems as fetchBankItems} from '../api/bank.ts'
 
-export interface EnrichedBankItem {
-    code: string;
-    quantity: number;
-    item: Item | undefined;
-}
 
 export function useBank() {
-    const rawItems = useSyncExternalStore(subscribe, getBankItems)
-    const {itemsByCode, isLoading : itemsLoading} = useItemsCache();
-    const [loading, setLoading] = useState<boolean>(true);
+    const rawItems = useSyncExternalStore(subscribeBank, getBankItems);
+    const {itemsByCode, isLoading:itemsLoading} = useItemsCache();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     const refresh = useCallback(async () => {
-        try{
+        try {
             setError(null);
             setBankItems(await fetchBankItems());
         } catch (error) {
-            setError(error instanceof Error ? error.message : "Unknown error occurred.");
+            setError(error instanceof Error ? error.message : 'Unknow error');
         } finally {
-            setLoading(false);
+            setIsLoading(false);
         }
-
     }, []);
 
-    useEffect(()=> {
+    useEffect(() => {
         refresh();
     }, [refresh]);
 
-    const enrichedItems: EnrichedBankItem[] = rawItems.map((bankItem) => ({
+    const items = rawItems.map((bankItem) => ({
         ...bankItem,
         item: itemsByCode.get(bankItem.code),
     }));
 
-    return {
-        items: enrichedItems,
-        isLoading: loading || itemsLoading,
-        error,
-        refresh,
-    }
+    return {items, isLoading: isLoading || itemsLoading, error, refresh};
 }

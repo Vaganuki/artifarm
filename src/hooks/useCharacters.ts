@@ -1,20 +1,26 @@
 import {useCallback, useEffect, useState, useSyncExternalStore} from "react";
+import {getAllCharacters, getCharacter, setCharacters, subscribeCharacter} from "../store/characterStore.ts";
 import {getCharacters} from "../api/characters.ts";
-import {getAllCharacters, setCharacters, subscribe} from "../store/characterStore.ts";
+
+export function useCharacter(name: string) {
+    const getSnapshot = useCallback(() => getCharacter(name), [name]);
+    return useSyncExternalStore(subscribeCharacter, getSnapshot);
+}
+
 
 export function useCharacters() {
-    const characters = useSyncExternalStore(subscribe, getAllCharacters);
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [error, setError] = useState<string | null>(null)
+    const characters = useSyncExternalStore(subscribeCharacter, getAllCharacters);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     const refresh = useCallback(async () => {
         try{
             setError(null);
             setCharacters(await getCharacters());
-        } catch (e) {
-            setError(e instanceof Error ? e.message : "Unknown error");
+        } catch(error){
+            setError(error instanceof Error ? error.message : 'Unknown error');
         } finally {
-            setIsLoading(false)
+            setIsLoading(false);
         }
     },[]);
 
@@ -22,5 +28,5 @@ export function useCharacters() {
         refresh();
     }, [refresh]);
 
-    return { characters, isLoading, error , refresh };
+    return {characters, isLoading, error, refresh};
 }

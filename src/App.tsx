@@ -6,13 +6,15 @@ import {CharacterDashboard} from "./components/dashboard/ChacterDashboard.tsx";
 import {ItemsProvider} from "./context/ItemsContext.tsx";
 import {Bank} from "./components/bank/Bank.tsx";
 import {LoginScreen} from "./components/login-screen/login-screen.tsx";
+import {ArtifactLogs} from "./components/artifact-logs/ArtifactLogs.tsx";
+import {Farm} from "./components/farm/Farm.tsx";
 
 function App() {
-  const {token,isPersisted, login, clearToken} = useAuthCredentials();
+  const {accessToken,isPersisted, setToken, clearToken} = useAuthCredentials();
 
   useEffect(() => {
-    setApiToken(token)
-  }, [token]);
+    setApiToken(accessToken)
+  }, [accessToken]);
 
   useEffect(() => {
     const handleUnauthorized = () => clearToken();
@@ -20,19 +22,19 @@ function App() {
     return () => window.removeEventListener("artifacts:unauthorized", handleUnauthorized);
   }, [clearToken]);
 
-  if (!token) {
-    return <LoginScreen onSubmit={login}/>;
+  if (!accessToken) {
+    return <LoginScreen onSubmit={setToken}/>;
   }
 
   return (
       <ItemsProvider>
         <div className="main-menu">
             <CharacterDashboard />
-            <div className="-logs dev">LOGS</div>
+            <ArtifactLogs/>
             <Bank />
             <div className="-jobs dev">JOBS</div>
             <div className="-tasks dev">TASKS</div>
-            <div className="-farm dev">FARM</div>
+            <Farm/>
             <button className="-settigns" onClick={clearToken}>{isPersisted  ? 'Forget my token' : 'Terminate my session' }</button>
         </div>
       </ItemsProvider>

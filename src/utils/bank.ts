@@ -1,32 +1,50 @@
 import type {Character} from "../@types/character";
 import {depositItem} from "../api/actions/bank.ts";
-import {log} from "../lib/logger.ts";
-import {sleep} from "./sleep.ts";
-import {moveTo} from "./moveTo.ts";
 import {BANK} from "../data/locations.ts";
+import {moveTo} from "./moveTo.ts";
+import {log} from "../lib/logger.ts";
+import {getApiErrorMessage} from "./apiError.ts";
+import {sleep} from "./sleep.ts";
 
-export async function depositExceptItem (character: Character, exceptItemCode?: string, signal?: AbortSignal) : Promise<Character> {
+export async function depositItemExcept(
+    character: Character,
+    exceptedCode: string,
+    signal?: AbortSignal,
+): Promise<Character> {
+    // Making a character proxy for the function
     let current = character;
 
-    const moveResult =  await moveTo(current, BANK);
-    if (moveResult) current = moveResult;
-
-
-    for (const invItem of character.inventory) {
-        if (!invItem.code || invItem.code === exceptItemCode || invItem.quantity <= 0) continue;
-
-        signal?.throwIfAborted();
-        try{
-            const result = await depositItem(current.name, [{code: invItem.code, quantity: invItem.quantity}]);
-            current = result.character;
-
-            log(`Deposited ${invItem.quantity} x${invItem.quantity}`, "info", current.name);
-            await sleep(result.cooldown.total_seconds * 1000);
-        } catch (e) {
-            if (e instanceof DOMException && e.name === 'AbortError') throw e;
-            log(e instanceof Error ? e.message : String(e), 'error', current.name);
-            break;
-        }
+    //If not at the bank, moving to the bank; Will have to check nearest bank later.
+    if (current.x !== BANK.x || current.y !== BANK.y) {
+        const move_res = await moveTo(current, BANK);
+        if (move_res) current = move_res;
     }
+
+    const depositPayload = current.inventory
+        .filter((item) => item.code !== exceptedCode && item.quantity > 0)
+        .map((item) =>({
+            code: item.code,
+            quantity: item.quantity,
+        }));
+
+    if (depositPayload.length === 0 ) return current;
+
+    signal?.throwIfAborted();
+
+    try{
+        const res = await depositItem(current.name, depositPayload);
+        current = res.character;
+
+        for (const deposit of res.items) {
+            log(`Deposited ${deposit.code} x${deposit.quantity}`, 'success', current.name);
+        }
+        await sleep(current.name, res.cooldown.total_seconds*1000, signal);
+
+    } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") throw err;
+        log(getApiErrorMessage(err), "error", character.name);
+        return current;
+    }
+
     return current;
 }
