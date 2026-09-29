@@ -46,10 +46,11 @@ function App() {
             <CharacterDashboard />
             <ArtifactLogs/>
             <Bank />
+            <Farm/>
             <div className="-jobs dev">JOBS</div>
             <div className="-tasks dev">TASKS</div>
-            <Farm/>
-            <button className="-settigns" onClick={clearToken}>{isPersisted  ? 'Forget my token' : 'Terminate my session' }</button>
+            <div className="-settings dev">SETTINGS</div>
+            <button className="-log-out" onClick={clearToken}>{isPersisted  ? 'Forget my token' : 'Terminate my session' }</button>
         </div>
       </ItemsProvider>
   )

@@ -1,10 +1,15 @@
 .main-menu{
     display: grid;
     gap: .5rem;
-    grid-template: 25% 60% 15% / repeat(5, 1fr);
-    grid-template-areas: 'character-dashboard character-dashboard character-dashboard character-dashboard character-dashboard'
-'log log log log log'
-    'bank jobs tasks farm setting';
+    grid-template: repeat(7, 1fr) / 92.5% 7.5%;
+    grid-template-areas:
+    'character-dashboard character-dashboard'
+    'log bank'
+    'log farm'
+    'log jobs'
+    'log tasks'
+    'log settings'
+    'log log-out';
 
     height: calc(100vh - 5rem);
 
@@ -40,4 +45,7 @@
 }
 .-settings{
     grid-area: settings;
+}
+.-log-out{
+    grid-area: log-out;
 }
