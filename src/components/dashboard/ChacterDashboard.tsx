@@ -24,22 +24,28 @@ export function CharacterDashboard() {
 function CharacterCard({ character }: { character: Character }) {
     const current = useCharacter(character.name);
     const routineId = useCurrentRoutine(character.name);
-    const routineLabel = ROUTINES.find((r) => r.id === routineId)?.label;
+    const {label, category} = ROUTINES.find(r => r.id === routineId) ?? {};
+
 
     if(!current) return null;
 
     return (
         <div className="char-card">
-            <CooldownBar character={current} />
+
+            <div className="char-card-title">
+                <span>{current.name}</span>
+                <span>LVL. {current.level}</span>
+            </div>
+
+
+
             <div className="char-card-left">
                 <img
                     src={`https://play.artifactsmmo.com/images/characters/${current.skin}.png`}
                     alt={`${current.name}'s skin`}
                 />
-                <p>LVL {current.level}</p>
             </div>
-            <div className="char-card-right">
-                <p className="char-card-name">{current.name}</p>
+            <div className="char-card-middle">
                 <div className="char-card-data">
                     <div className="hp-bar-container">
                         <div className="hp-label">{current.hp} / {current.max_hp} HP</div>
@@ -49,18 +55,34 @@ function CharacterCard({ character }: { character: Character }) {
                         <div className="xp-label">{current.xp} / {current.max_xp} XP</div>
                         <div className="xp-bar" style={{ width: `${(current.xp / current.max_xp) * 100}%` }} />
                     </div>
-                    <p>({current.x},{current.y})</p>
                 </div>
 
-                {routineId ? (
-                    <div className="char-card-activity">
-                        <p>{routineLabel}</p>
-                        <button onClick={() => stopLoop(current.name)}>Stop</button>
+            </div>
+            <div className="char-card-right">
+                {routineId && (
+                    <div className="char-card-routine-img">
+                        {category == 'combat' ? (
+                            <img src={`https://play.artifactsmmo.com/images/monsters/${routineId}.png`} alt={label}/>
+
+                        ) : (
+                            <img src={`https://play.artifactsmmo.com/images/items/${routineId}.png`} alt={label}/>
+                        )
+                        }
                     </div>
-                ) : (
-                    <p className="char-card-activity char-card-activity--idle">Idle</p>
+                )}
+                <p>({current.x},{current.y})</p>
+                {routineId && (
+                    <button onClick={() => stopLoop(current.name)}>Stop</button>
                 )}
             </div>
+            {routineId ? (
+                <div className="char-card-activity">
+                    <p>{label}</p>
+                </div>
+            ) : (
+                <p className="char-card-activity char-card-activity--idle">Idle</p>
+            )}
+            <CooldownBar character={current} />
         </div>
     );
 }
