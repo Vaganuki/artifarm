@@ -6,10 +6,10 @@
     width: 100%;
     height: 100%;
     overflow-y: scroll;
-    background-color: lightgray;
+    background-color: black; //TODO: maybe another color ?
 
     padding: .25rem;
-    border: .2rem double black;
+    border: .2rem double var(--border-color);
 
     .log{
       display: grid;
@@ -28,24 +28,27 @@
       }
       &error{
         .log-character{
-          color: red;
+          color: var(--busy-tag);
         }
       }
       &info{
         .log-character{
-          color: deepskyblue;
+          color: var(--text-accent);
         }
       }
       &success{
         .log-character{
-          color: green;
+          color: var(--accent-color);
         }
       }
     }
   }
 
+
+  //TODO: Edit this when we'll get to the functionality of it
+
   .logs-menu{
-    border: 4px double black;
+    border: 4px double var(--border-color);
     display: grid;
 
     grid-template-rows: 5% 95%;
@@ -54,9 +57,11 @@
 
     gap: .25rem;
 
+    color: var(--text-main);
+
     .logs-menu-title{
       font-size: 1.2rem;
-      background-color: rgba(240,240,240, 0.45);
+      background-color: var(--bg-surface);
       width: 100%;
       height: 100%;
 
@@ -64,7 +69,7 @@
       justify-content: center;
       align-items: center;
 
-      border-bottom: 5px solid black;
+      border-bottom: 5px solid var(--border-color);
     }
 
     .logs-menu-buttons{
@@ -79,11 +84,6 @@
       button{
         width: 80%;
         height: 2rem;
-        background-color: white;
-        &:hover{
-          background-color: grey;
-          color: white;
-        }
       }
     }
 

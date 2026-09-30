@@ -50,7 +50,7 @@ function App() {
             <div className="-jobs dev">JOBS</div>
             <div className="-tasks dev">TASKS</div>
             <div className="-settings dev">SETTINGS</div>
-            <button className="-log-out" onClick={clearToken}>{isPersisted  ? 'Forget my token' : 'Terminate my session' }</button>
+            <button className="-log-out" onClick={clearToken}>{isPersisted  ? 'LOG OUT' : 'Terminate my session' }</button>
         </div>
       </ItemsProvider>
   )

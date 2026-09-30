@@ -12,7 +12,8 @@
   transform: translate(-50%, -50%);
   z-index: 5;
 
-  background-color: black;
+  background-color: var(--bg-surface);
+  border: .25rem solid var(--border-color);
   border-radius: 1rem;
 
   .header{
@@ -24,24 +25,20 @@
     padding: 0.75rem;
 
     font-weight: bold;
-    color: white;
+    color: var(--text-main);
+
     svg{
-      height: 1rem;
+      height: 1em;
+      &:hover{
+        color: var(--text-accent);
+      }
     }
   }
   .farm__filters{
     display: flex;
     justify-content: center;
     gap: .25rem;
-    //height: 1.5rem;
     margin-bottom: .75rem;
-
-    button{
-      background-color: transparent;
-      color: white;
-      padding: 0.25rem 0.5rem;
-      border-radius: .25rem;
-    }
   }
 
   .farm__list{
@@ -54,8 +51,10 @@
     }
 
     .routine-row {
-      background: green;
+      background: var(--bg-primary);
       border-radius: .5rem;
+      border: 1px solid var(--border-color);
+
       padding: 0.75rem;
       aspect-ratio: 16/9;
 
@@ -63,10 +62,12 @@
       justify-content: center;
       align-items: center;
 
+      color: var(--text-main);
+
       &:hover {
-        background-color: lightgreen;
-        border: 1px solid #fff;
-        color: #fff;
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-accent);
+        color: var(--text-accent);
       }
 
       &__header {
@@ -79,9 +80,9 @@
 
 
         &.has-selected {
-          border-style: solid;
-          background: #2b4c7e;
-          color: #fff;
+          border: 1px solid var(--border-accent);
+          background: #2b4c7e; // TODO: add it to the color theme
+          color: var(--text-muted);
         }
 
       &__character-picker {
@@ -92,7 +93,7 @@
         gap: 0.5rem;
         .picker-title {
           font-size: 0.85rem;
-          color: red;
+          color: var(--text-muted);
           margin-bottom: 0.5rem;
         }
 
@@ -105,8 +106,6 @@
             flex-direction: column;
             align-items: center;
             padding: 0.25rem;
-            background: lightcoral;
-            border: 2px solid transparent;
             border-radius: 8px;
             cursor: pointer;
             transition: transform 0.15s ease, border-color 0.15s ease;
@@ -118,14 +117,16 @@
             }
 
             &.is-selected {
-              border-color: #4caf50;
+              border-color: #4caf50; //TODO: add it to the color theme
               background: #1b381e;
             }
 
             &.is-busy {
               opacity: 0.5;
               cursor: not-allowed;
-              filter: grayscale(0.8);
+              & .character-card__avatar{
+                filter: grayscale(0.8);
+              }
             }
 
             &__avatar {
@@ -142,8 +143,7 @@
                 left: 50%;
                 transform: translateX(-50%);
                 font-size: 0.65rem;
-                background: #e53935;
-                color: #fff;
+                background: var(--busy-tag);
                 padding: 1px .25rem;
                 border-radius: .25rem;
               }
@@ -152,7 +152,6 @@
             &__name {
               font-size: 0.5rem;
               margin-top: 0.3rem;
-              color: #ddd;
             }
           }
         }

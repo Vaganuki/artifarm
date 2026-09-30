@@ -1,9 +1,54 @@
+/*
+    -- COLOR THEMES HERE --
+*/
+
+:root {
+    --bg-primary: #0B0F14;
+    --bg-surface: #151824;
+
+    --border-color: #2A3442;
+    --border-accent: #3882F6 ;
+
+    --text-main: #E6E0F1;
+    --text-accent: #60A5FA;
+    --text-muted: #b4f0fa;
+
+    --accent-color: #AB55F7;
+    --busy-tag: #F37171;
+}
+
+
+
+
+
+
+/*
+    -- The rest's here --
+*/
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: 'Roboto', sans-serif;
 }
+
+body{
+    background-color: black;
+}
+
+button{
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: .25rem;
+    &:hover{
+        background-color: var(--bg-surface);
+        border: 1px solid var(--border-accent);
+        color: var(--text-accent);
+    }
+}
+
 
 .hp-bar-container, .xp-bar-container{
     position: relative;
@@ -51,10 +96,12 @@
     justify-content: center;
     align-items: center;
     text-transform: capitalize;
-    font-weight: bold;
+    font-weight: bolder;
     font-family: 'Comic Sans MS', cursive;
-    color: crimson;
+    color: red;
 }
+
+
 .unselectable {
     -webkit-user-select: none;
     -ms-user-select: none;

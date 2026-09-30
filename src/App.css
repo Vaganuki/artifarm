@@ -1,3 +1,4 @@
+
 .main-menu{
     display: grid;
     gap: .5rem;
@@ -16,7 +17,8 @@
     margin: 2.5rem;
     padding: 2.5rem;
 
-    border: 1px solid #ccc;
+    border: .25rem solid var(--border-color);
+    background-color: var(--bg-primary);
     border-radius: 1rem;
 }
 
@@ -31,6 +33,11 @@
     grid-area: bank;
     display: flex;
     justify-content: center;
+    color: var(--text-main);
+    cursor: pointer;
+    &:hover{
+        color: var(--text-accent);
+    }
 }
 .-jobs{
     grid-area: jobs;
@@ -42,6 +49,11 @@
     grid-area: farm;
     display: flex;
     justify-content: center;
+    color: var(--text-main);
+    cursor: pointer;
+    &:hover{
+        color: var(--text-accent);
+    }
 }
 .-settings{
     grid-area: settings;
