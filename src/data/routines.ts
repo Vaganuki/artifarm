@@ -127,24 +127,24 @@ export const ROUTINES: Routine[] = [
 
     // === ALCHEMY ===
     {
-        id: "sunflower_raw",
-        label: "Sunflower (raw)",
+        id: "sunflower",
+        label: "Sunflower",
         category: "resource",
         run: (name, signal) => rawResourceCycle(name, L.SUNFLOWER, signal),
     },
 
     // === MONSTERS ===
-    { id: "chicken", label: "Chicken Fight", category: "combat", run: (name, signal) => combatCycle(name, L.CHICKEN, signal) },
-    { id: "sheep", label: "Sheep Fight", category: "combat", run: (name, signal) => combatCycle(name, L.SHEEP, signal) },
-    { id: "cow", label: "Cow Fight", category: "combat", run: (name, signal) => combatCycle(name, L.COW, signal) },
+    { id: "chicken", label: "Chicken", category: "combat", run: (name, signal) => combatCycle(name, L.CHICKEN, signal) },
+    { id: "sheep", label: "Sheep", category: "combat", run: (name, signal) => combatCycle(name, L.SHEEP, signal) },
+    { id: "cow", label: "Cow", category: "combat", run: (name, signal) => combatCycle(name, L.COW, signal) },
 
-    { id: "yellow_slime", label: "Yellow Slime Fight", category: "combat", run: (name, signal) => combatCycle(name, L.YELLOW_SLIMES, signal) },
-    { id: "green_slime", label: "Green Slime Fight", category: "combat", run: (name, signal) => combatCycle(name, L.GREEN_SLIMES, signal) },
-    { id: "red_slime", label: "Red Slime Fight", category: "combat", run: (name, signal) => combatCycle(name, L.RED_SLIMES, signal) },
-    { id: "blue_slime", label: "Blue Slime Fight", category: "combat", run: (name, signal) => combatCycle(name, L.BLUE_SLIMES, signal) },
+    { id: "yellow_slime", label: "Yellow Slime", category: "combat", run: (name, signal) => combatCycle(name, L.YELLOW_SLIMES, signal) },
+    { id: "green_slime", label: "Green Slime", category: "combat", run: (name, signal) => combatCycle(name, L.GREEN_SLIMES, signal) },
+    { id: "red_slime", label: "Red Slime", category: "combat", run: (name, signal) => combatCycle(name, L.RED_SLIMES, signal) },
+    { id: "blue_slime", label: "Blue Slime", category: "combat", run: (name, signal) => combatCycle(name, L.BLUE_SLIMES, signal) },
 
-    { id: "mushmush", label: "Mushmush Fight", category: "combat", run: (name, signal) => combatCycle(name, L.MUSHMUSH, signal) },
-    { id: "dragon_fly", label: "Dragon Fly Fight", category: "combat", run: (name, signal) => combatCycle(name, L.DRAGON_FLY, signal) },
+    { id: "mushmush", label: "Mushmush", category: "combat", run: (name, signal) => combatCycle(name, L.MUSHMUSH, signal) },
+    { id: "flying_snake", label: "Flying Snake", category: "combat", run: (name, signal) => combatCycle(name, L.DRAGON_FLY, signal) },
     { id: "wolf", label: "Wolf", category: "combat", run: (name, signal) => combatCycle(name, L.WOLF, signal) },
     { id: "highway_man", label: "Highway Man", category: "combat", run: (name, signal) => combatCycle(name, L.HIGHWAYMAN, signal) },
 ];
