@@ -146,5 +146,5 @@ export const ROUTINES: Routine[] = [
     { id: "mushmush", label: "Mushmush", category: "combat", run: (name, signal) => combatCycle(name, L.MUSHMUSH, signal) },
     { id: "flying_snake", label: "Flying Snake", category: "combat", run: (name, signal) => combatCycle(name, L.DRAGON_FLY, signal) },
     { id: "wolf", label: "Wolf", category: "combat", run: (name, signal) => combatCycle(name, L.WOLF, signal) },
-    { id: "highway_man", label: "Highway Man", category: "combat", run: (name, signal) => combatCycle(name, L.HIGHWAYMAN, signal) },
+    { id: "highwayman", label: "Highway Man", category: "combat", run: (name, signal) => combatCycle(name, L.HIGHWAYMAN, signal) },
 ];
