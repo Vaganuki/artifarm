@@ -1,57 +1,168 @@
-.-farm {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
+.farm-container {
+  position: absolute;
 
-.farm-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem;
-  border: 1px solid lightgray;
-  border-radius: 0.5rem;
+  width: fit-content;
+  aspect-ratio: 16/9;
 
-  &__character {
+  padding: 1rem;
+  overflow-y: scroll;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+
+  background-color: black;
+  border-radius: 1rem;
+
+  .header{
+    width: 100%;
     display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    min-width: 8rem;
 
-    img {
-      width: 2rem;
-      height: 2rem;
-      image-rendering: pixelated;
-    }
+    justify-content: space-between;
+    font-size: 2rem;
+    padding: 0.75rem;
 
-    p {
-      font-weight: 600;
-      text-transform: uppercase;
+    font-weight: bold;
+    color: white;
+    svg{
+      height: 1rem;
     }
   }
+  .farm__filters{
+    display: flex;
+    justify-content: center;
+    gap: .25rem;
+    //height: 1.5rem;
+    margin-bottom: .75rem;
 
-  select {
-    flex: 1;
+    button{
+      background-color: transparent;
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: .25rem;
+    }
   }
 
-  .btn-start {
-    background-color: #2e7d32;
-    color: white;
+  .farm__list{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: .75rem;
+
+    .routine-container{
+      width: 15vw;
+    }
+
+    .routine-row {
+      background: green;
+      border-radius: .5rem;
+      padding: 0.75rem;
+      aspect-ratio: 16/9;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:hover {
+        background-color: lightgreen;
+        border: 1px solid #fff;
+        color: #fff;
+      }
+
+      &__header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: .5rem;
+      }
+
+
+
+        &.has-selected {
+          border-style: solid;
+          background: #2b4c7e;
+          color: #fff;
+        }
+
+      &__character-picker {
+        padding-top: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        .picker-title {
+          font-size: 0.85rem;
+          color: red;
+          margin-bottom: 0.5rem;
+        }
+
+        .character-grid {
+          display: flex;
+          gap: 0.25rem;
+          justify-content: space-around;
+          .character-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 0.25rem;
+            background: lightcoral;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+
+            width: 17.5%;
+
+            &:hover:not(:disabled) {
+              transform: translateY(-2px);
+            }
+
+            &.is-selected {
+              border-color: #4caf50;
+              background: #1b381e;
+            }
+
+            &.is-busy {
+              opacity: 0.5;
+              cursor: not-allowed;
+              filter: grayscale(0.8);
+            }
+
+            &__avatar {
+              position: relative;
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+
+              .busy-tag {
+                position: absolute;
+                bottom: -.25rem;
+                left: 50%;
+                transform: translateX(-50%);
+                font-size: 0.65rem;
+                background: #e53935;
+                color: #fff;
+                padding: 1px .25rem;
+                border-radius: .25rem;
+              }
+            }
+
+            &__name {
+              font-size: 0.5rem;
+              margin-top: 0.3rem;
+              color: #ddd;
+            }
+          }
+        }
+
+      }
+      &__start-btn{
+        width: 100%;
+      }
+    }
+
   }
 
-  .btn-stop {
-    background-color: #c62828;
-    color: white;
-  }
-}
-
-.not-open{
-  flex-direction: column;
-  text-align: center;
-  gap: .5rem;
-  font-weight: bold;
-  font-size: 1.25rem;
-  & svg{
-    height: 50%;
-  }
 }

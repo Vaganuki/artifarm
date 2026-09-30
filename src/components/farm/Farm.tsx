@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState} from "react";
 import { useCharacters } from "../../hooks/useCharacters";
 import { useCurrentRoutine } from "../../hooks/useCurrentRoutine";
 import { startLoop } from "../../lib/loopManager";
@@ -21,13 +21,23 @@ export function Farm() {
     const routines = filter === "all" ? ROUTINES : ROUTINES.filter((r) => r.category === filter);
 
     function handleOpen() {
-        setIsOpen(!isOpen);
+        setIsOpen( prev => !prev);
     }
 
     return (
         <>
         {isOpen &&
-                <div>
+                <div className="farm-container">
+                    <div className="header">
+                        <p>Farming Loops</p>
+                        <svg onClick={handleOpen} xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                             className="bi bi-x-square" viewBox="0 0 16 16">
+                            <path
+                                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                            <path
+                                d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </div>
                     <div className="farm__filters">
                         {(Object.keys(CATEGORY_LABELS) as (RoutineCategory | "all")[]).map((key) => (
                             <button key={key} className={filter === key ? "active" : ""} onClick={() => setFilter(key)}>
@@ -58,44 +68,95 @@ interface RoutineRowProps {
 }
 
 function RoutineRow({routine, characters}: RoutineRowProps) {
-    const [selected, setSelected] = useState("");
+    const [isSelectorOpen, setIsSelectorOpen] = useState<boolean>(false);
+    const [selectedCharacter, setSelectedCharacter] = useState<string|null>(null);
+
 
     function handleStart() {
-        if (!selected) return;
-        startLoop(selected, routine.id, (signal) => routine.run(selected, signal));
+        if (!selectedCharacter) return;
+        startLoop(selectedCharacter, routine.id, (signal) => routine.run(selectedCharacter, signal));
+
+        setSelectedCharacter(null);
+        setIsSelectorOpen(false);
     }
 
-    return (
-        <div className="routine-row">
-            <span className={`routine-badge routine-badge--${routine.category}`}>{routine.category}</span>
-            <p className="routine-label">{routine.label}</p>
-            <select value={selected} onChange={(e) => setSelected(e.target.value)}>
-                <option value="">-- character --</option>
-                {characters.map((c) => (
-                    <CharacterOption key={c.name} character={c} routineId={routine.id} />
-                ))}
-            </select>
 
-            <button onClick={handleStart} disabled={!selected}>Start</button>
+
+    return (
+
+        //TODO: add refs for GSAP ?
+        <div className="routine-container">
+            <div className={`routine-row ${isSelectorOpen ? "has-selected" : ""}`}
+                onClick={() => setIsSelectorOpen(prev => !prev)}
+            >
+                <div className="routine-row__header">
+                    <div className="routine-badge">
+                        {routine.category === 'combat' ?
+                            (
+                                <img src={`https://play.artifactsmmo.com/images/monsters/${routine.id}.png`} alt={routine.label}/>
+                            ) : (
+                                <img src={`https://play.artifactsmmo.com/images/items/${routine.id}.png`} alt={routine.label}/>
+                            )
+                        }
+                    </div>
+                <p className="routine-label">{routine.label}</p>
+                </div>
+            </div>
+
+            {isSelectorOpen && (
+                <div className="routine-row__character-picker">
+                    <p className="picker-title">Select a character:</p>
+                    <div className="character-grid">
+                        {characters.map((char) => (
+                            <CharacterCard
+                                key={char.name}
+                                character={char}
+                                routineId={routine.id}
+                                isSelected={selectedCharacter === char.name}
+                                onSelect={ name => setSelectedCharacter(name)}
+                            />
+                        ))
+
+                        }
+                    </div>
+                    <button
+                        type="button"
+                        className="routine-row__start-btn"
+                        onClick={handleStart}
+                        disabled={!selectedCharacter}
+                    >
+                        Start
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
 
-// Composant dedie : useCurrentRoutine doit etre appele au meme niveau pour
-// CHAQUE personnage (pas dans une boucle .map() du parent), sinon on viole
-// les Rules of Hooks des que le nombre de personnages change.
-interface CharacterOptionProps {
+interface CharacterCardProps {
     character: Character;
     routineId: string;
+    isSelected: boolean;
+    onSelect: (name: string) => void;
 }
 
-function CharacterOption({ character, routineId }: CharacterOptionProps) {
+function CharacterCard({character, routineId, isSelected, onSelect}: CharacterCardProps) {
     const runningId = useCurrentRoutine(character.name);
-    const busy = runningId !== null && runningId !== routineId;
+    const isBusy = runningId !== null && runningId !== routineId;
 
     return (
-        <option value={character.name} disabled={busy}>
-        {character.name}{busy ? " (busy)" : ""}
-    </option>
-);
+        <button
+            type="button"
+            className={`character-card ${isSelected ? 'is-selected' : ''} ${isBusy ? 'is-busy' : ''}`}
+            disabled={isBusy}
+            onClick={() => onSelect(character.name)}
+        >
+            <div className="character-card__avatar">
+                <img src={`https://play.artifactsmmo.com/images/characters/${character.skin}.png`} alt={character.name}/>
+                {isBusy && <span className="busy-tag">Busy</span>}
+            </div>
+            <span className="character-card__name">{character.name}</span>
+        </button>
+    )
+
 }

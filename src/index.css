@@ -60,3 +60,14 @@
     -ms-user-select: none;
     user-select: none;
 }
+
+.not-open{
+    flex-direction: column;
+    text-align: center;
+    gap: .5rem;
+    font-weight: bold;
+    font-size: 1.25rem;
+    & svg{
+        height: 50%;
+    }
+}
