@@ -12,14 +12,16 @@
     'log settings'
     'log log-out';
 
-    height: calc(100vh - 5rem);
 
+    height:100vh;
+    /*
     margin: 2.5rem;
+    border: .25rem solid var(--border-color);
+    border-radius: 1rem;
+    */
     padding: 2.5rem;
 
-    border: .25rem solid var(--border-color);
     background-color: var(--bg-primary);
-    border-radius: 1rem;
 }
 
 

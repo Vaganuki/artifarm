@@ -8,9 +8,13 @@ import {Bank} from "./components/bank/Bank.tsx";
 import {LoginScreen} from "./components/login-screen/login-screen.tsx";
 import {ArtifactLogs} from "./components/artifact-logs/ArtifactLogs.tsx";
 import {Farm} from "./components/farm/Farm.tsx";
+import {SettingsScreen} from "./components/settings-screen/SettingsScreen.tsx";
+import {useTheme} from "./hooks/useThemes.ts";
 
 function App() {
   const {accessToken,isPersisted, setToken, clearToken} = useAuthCredentials();
+
+  useTheme();
 
   useEffect(() => {
     setApiToken(accessToken)
@@ -49,7 +53,7 @@ function App() {
             <Farm/>
             <div className="-jobs dev">JOBS</div>
             <div className="-tasks dev">TASKS</div>
-            <div className="-settings dev">SETTINGS</div>
+            <SettingsScreen/>
             <button className="-log-out" onClick={clearToken}>{isPersisted  ? 'LOG OUT' : 'Terminate my session' }</button>
         </div>
       </ItemsProvider>
