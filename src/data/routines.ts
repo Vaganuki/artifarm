@@ -77,6 +77,12 @@ export const ROUTINES: Routine[] = [
             rawCode: "spruce_wood", productCode: "spruce_plank", craftRatio: 10,
         }, signal),
     },
+    {
+        id: "birch_wood",
+        label: "Birch Wood",
+        category: "resource",
+        run: (name, signal) => rawResourceCycle(name, L.BIRCH_TREE, signal),
+    },
 
     // === FISH ===
     {

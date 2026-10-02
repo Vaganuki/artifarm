@@ -13,6 +13,8 @@ export const IRON_ROCKS : Location = {x: 1, y: 7};
 // === TREES ===
 export const ASH_TREE : Location = {x: -1, y: 0};
 export const SPRUCE_TREE : Location = {x: 2, y: 6};
+export const BIRCH_TREE : Location = {x: -1, y: 6};
+
 
 // === FISHES ===
 export const GUDGEON_SPOT : Location = {x: 4, y: 2};
@@ -42,6 +44,7 @@ export const RAW_RESOURCE_LOCATIONS = {
     IRON_ROCKS,
     ASH_TREE, // TREES
     SPRUCE_TREE,
+    BIRCH_TREE,
     GUDGEON_SPOT, // FISHES
     SHRIMP_SPOT,
     TROUT_SPOT,
