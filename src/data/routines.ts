@@ -45,6 +45,12 @@ export const ROUTINES: Routine[] = [
             rawCode: "iron_ore", productCode: "iron_bar", craftRatio: 10,
         }, signal),
     },
+    {
+        id: "coal",
+        label: "Coal",
+        category: "resource",
+        run: (name, signal) => rawResourceCycle(name, L.COAL_ROCKS, signal),
+    },
 
     // === WOODS ===
     {

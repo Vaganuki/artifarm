@@ -9,6 +9,8 @@ export const COOKING_WORKSHOP : Location = {x: 1, y: 1};
 // === MINES ===
 export const COPPER_ROCKS : Location = {x: 2, y: 0};
 export const IRON_ROCKS : Location = {x: 1, y: 7};
+export const COAL_ROCKS : Location = {x: 1, y: 6};
+
 
 // === TREES ===
 export const ASH_TREE : Location = {x: -1, y: 0};
@@ -33,6 +35,7 @@ export const MUSHMUSH : Location = {x: 5, y: 3};
 export const DRAGON_FLY : Location = {x: 5, y: 4};
 export const HIGHWAYMAN : Location = {x:2,y:8}
 export const WOLF : Location = {x:-2,y:1}
+
 // === ALCHEMY ===
 export const SUNFLOWER : Location = {x: 2, y:2}
 
@@ -42,6 +45,7 @@ export const SUNFLOWER : Location = {x: 2, y:2}
 export const RAW_RESOURCE_LOCATIONS = {
     COPPER_ROCKS, // ROCKS
     IRON_ROCKS,
+    COAL_ROCKS,
     ASH_TREE, // TREES
     SPRUCE_TREE,
     BIRCH_TREE,
