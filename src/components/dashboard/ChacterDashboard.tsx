@@ -5,9 +5,14 @@ import { ROUTINES } from "../../data/routines";
 import { CooldownBar } from "./CooldownBar";
 import type { Character } from "../../@types/character";
 import "./character_dashboard.scss";
+import {useState} from "react";
+import {CharDetails} from "./CharDetails.tsx";
 
 export function CharacterDashboard() {
     const { characters, isLoading, error } = useCharacters();
+
+    const [selectedChar, setSelectedChar] = useState<string | null>(null);
+
 
     if (isLoading) return <p>Loading characters...</p>;
     if (error) return <p>Error: {error}</p>;
@@ -15,22 +20,31 @@ export function CharacterDashboard() {
     return (
         <div className="character-dashboard">
             {characters.map((character) => (
-                <CharacterCard character={character} key={character.name} />
+                <CharacterCard character={character} key={character.name}
+                    onClick={() => setSelectedChar(character.name)}
+                />
             ))}
+
+            {selectedChar && (
+                <CharDetails
+                    characterName={selectedChar}
+                    onClose={() => setSelectedChar(null)}
+                />
+            )}
+
         </div>
     );
 }
 
-function CharacterCard({ character }: { character: Character }) {
+function CharacterCard({ character, onClick }: { character: Character; onClick: () => void }) {
     const current = useCharacter(character.name);
     const routineId = useCurrentRoutine(character.name);
     const {label, category} = ROUTINES.find(r => r.id === routineId) ?? {};
 
-
     if(!current) return null;
 
     return (
-        <div className="char-card">
+        <div className="char-card" onClick={onClick}>
 
             <div className="char-card-title">
                 <span>{current.name}</span>
