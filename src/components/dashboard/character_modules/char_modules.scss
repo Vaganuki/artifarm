@@ -1,0 +1,29 @@
+.modal-skills{
+  display: grid;
+  grid-template: repeat(2, 1fr) /repeat(4, 1fr);
+  gap: .5rem;
+  .skill-container{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+    padding: .5rem;
+
+    background-color: var(--bg-surface);
+    min-width: fit-content;
+
+    border-radius: .5rem;
+
+    &__header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+
+      &-icon{
+        width: 2rem;
+        aspect-ratio: 1/1;
+      }
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import {useCharacter} from "../../hooks/useCharacters.ts";
+import {CharSkillsModule} from "./character_modules/CharSkillsModule.tsx";
 
 type CharDetailsProps = {
     characterName : string;
@@ -16,11 +17,8 @@ export function CharDetails({characterName, onClose}: CharDetailsProps) {
 
                 <h2>{current.name} (Niv. {current.level})</h2>
 
-                <div className="details-grid">
-                    <p><strong>Infos set</strong></p>
-                    <p>HP Max : {current.max_hp}</p>
-                    <p>XP Max : {current.max_xp}</p>
-                </div>
+                <CharSkillsModule current={current}/>
+                <pre>{JSON.stringify(current, null, 2)}</pre>
             </div>
         </div>
     );
