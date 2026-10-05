@@ -27,3 +27,36 @@
     }
   }
 }
+
+.modal-elements{
+  display: grid;
+  grid-template: repeat(3, fit-content(1fr)) /repeat(2, fit-content(1fr));
+  gap: .5rem;
+
+  width: fit-content;
+
+  &__header{
+    grid-column: span 2;
+  }
+
+  .element-container{
+    display: flex;
+    gap: .5rem;
+
+    padding: .5rem;
+
+    background-color: var(--bg-surface);
+    width: fit-content;
+    aspect-ratio: 2/1;
+    border-radius: .5rem;
+
+    align-items: center;
+
+    &__stats{
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+  }
+
+}
