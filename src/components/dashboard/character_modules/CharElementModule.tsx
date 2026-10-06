@@ -23,7 +23,7 @@ export function CharElementModule({current} : CharElementModuleProps) {
                     <span className="element-container__stats">
                         <span>{element}</span>
                         <span>
-                            {current[`attack_${element}` as keyof typeof current] as string} + ({current[`dmg_${element}` as keyof typeof current] as string}%) | {current[`res_${element}` as keyof typeof current] as string}
+                            {current[`attack_${element}` as keyof typeof current] as string} + ({current[`dmg_${element}` as keyof typeof current] as string}%) | {current[`res_${element}` as keyof typeof current] as string}%
                         </span>
 
                     </span>

@@ -1,4 +1,31 @@
+.modal-main{
+  grid-area: mMain;
+
+  display: grid;
+  grid-template-columns: fit-content(10%) 1fr ;
+  gap: .5rem;
+
+  &__icon{
+    img{
+      object-fit: contain;
+    }
+  }
+
+  &__data{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+
+  &__text{
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+  }
+  }
+}
+
 .modal-skills{
+  grid-area: mSkills;
   display: grid;
   grid-template: repeat(2, 1fr) /repeat(4, 1fr);
   gap: .5rem;
@@ -29,11 +56,10 @@
 }
 
 .modal-elements{
+  grid-area: mElements;
   display: grid;
-  grid-template: repeat(3, fit-content(1fr)) /repeat(2, fit-content(1fr));
+  grid-template: repeat(3, fit-content(30%)) /repeat(2, 50%);
   gap: .5rem;
-
-  width: fit-content;
 
   &__header{
     grid-column: span 2;
@@ -46,10 +72,7 @@
     padding: .5rem;
 
     background-color: var(--bg-surface);
-    width: fit-content;
-    aspect-ratio: 2/1;
     border-radius: .5rem;
-
     align-items: center;
 
     &__stats{
@@ -59,4 +82,134 @@
     }
   }
 
+}
+
+.modal-corestats{
+  grid-area: mCore;
+  display: grid;
+  grid-template: 1rem repeat(2, 1fr) /repeat(4, 1fr);
+  gap: .5rem;
+
+  width: fit-content;
+  &__header{
+    grid-column: span 4;
+  }
+
+  .corestats-container{
+    display: flex;
+    gap: .5rem;
+    padding: .5rem;
+    background-color: var(--bg-surface);
+
+    border-radius: .5rem;
+    align-items: center;
+
+    &__stats{
+      display: flex;
+      flex-direction: column;
+      gap: .125rem;
+    }
+  }
+
+}
+
+.modal-equipment{
+  grid-area: mEquip;
+  .equipment-container{
+    display: grid;
+    grid-template: repeat(6, 1fr) /repeat(3,1fr);
+    gap: .5rem;
+    grid-template-areas:
+    '. helmet .'
+    'ring1 amulet ring2'
+    'weapon body_armor shield'
+    'bag leg_armor rune'
+    'utility1 boots utility2'
+    'artifact1 artifact2 artifact3'
+  ;
+
+    .equipment-item{
+      text-align: center;
+      &__container{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        gap: .125rem;
+        padding: .5rem;
+        border-radius: .5rem;
+        background-color: var(--bg-surface);
+
+        font-size: 0.8rem;
+      }
+
+      &__icon{
+        height: 2rem;
+      }
+      &__quantity{
+        position: absolute;
+        bottom: 0.5rem;
+        right: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        background-color: var(--bg-primary);
+        border-radius: .25rem;
+        font-size: .8rem;
+      }
+    }
+
+  }
+
+
+  .weapon{
+    grid-area: weapon;
+  }
+  .rune{
+    grid-area: rune;
+  }
+  .shield{
+    grid-area: shield;
+  }
+  .helmet{
+    grid-area: helmet;
+  }
+  .body_armor{
+    grid-area: body_armor;
+  }
+  .leg_armor{
+    grid-area: leg_armor;
+  }
+  .boots{
+    grid-area: boots;
+  }
+  .ring1{
+    grid-area: ring1;
+  }
+  .ring2{
+    grid-area: ring2;
+  }
+  .amulet{
+    grid-area: amulet;
+  }
+  .artifact1{
+    grid-area: artifact1;
+  }
+  .artifact2{
+    grid-area: artifact2;
+  }
+  .artifact3{
+    grid-area: artifact3;
+  }
+  .utility1{
+    grid-area: utility1;
+  }
+  .utility2{
+    grid-area: utility2;
+  }
+  .bag{
+    grid-area: bag;
+  }
 }

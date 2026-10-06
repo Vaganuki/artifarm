@@ -11,9 +11,9 @@ export function CharSkillsModule( {current }: CharSkillsModuleProps ) {
     return(
         <div className="modal-skills">
             {SKILL_KEYS.map( skill=> {
-                        const level = current[`${skill}_level` as keyof typeof current ];
-                        const currentXp = current[`${skill}_xp` as keyof typeof current];
-                        const maxXp = current[`${skill}_max_xp` as keyof typeof current];
+                        const level = current[`${skill}_level`];
+                        const currentXp = current[`${skill}_xp`];
+                        const maxXp = current[`${skill}_max_xp`];
                         return (
                             <div className="skill-container" key={skill}>
                                 <div className="skill-container__header">
@@ -23,11 +23,11 @@ export function CharSkillsModule( {current }: CharSkillsModuleProps ) {
                                         className={`skill-container__header-icon`}
                                     />
                                     <span>{skill}</span>
-                                    <span>lvl. {level as string}</span>
+                                    <span>lvl. {level}</span>
                                 </div>
                                 <div className="xp-bar-container">
-                                    <div className="xp-label">{currentXp as string} / {maxXp as string} XP</div>
-                                    <div className="xp-bar" style={{ width: `${((currentXp as number) / (maxXp as number)) * 100}%` }} />
+                                    <div className="xp-label">{currentXp} / {maxXp} XP</div>
+                                    <div className="xp-bar" style={{ width: `${((currentXp) / (maxXp)) * 100}%` }} />
                                 </div>
                             </div>
 
